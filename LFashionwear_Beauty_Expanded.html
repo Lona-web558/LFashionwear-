@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFashionwear Beauty – Midrand & Sandton Personal Shopper</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E9C8;
+    --black: #0A0A0A;
+    --charcoal: #1A1A1A;
+    --dark: #111111;
+    --mid: #2A2A2A;
+    --text: #E8E8E8;
+    --text-muted: #888;
+    --surface: #161616;
+    --surface2: #1E1E1E;
+    --border: rgba(201,168,76,0.2);
+    --radius: 4px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(201,168,76,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(201,168,76,0.03) 0%, transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--text); font-weight: 300; }
+
+  .nav-actions { display: flex; gap: 16px; align-items: center; }
+
+  .cart-btn {
+    position: relative;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cart-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .cart-count {
+    background: var(--gold);
+    color: var(--black);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 80px 24px 60px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 7vw, 72px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--text);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--gold); }
+
+  .hero p {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .zone-section {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+
+  .zone-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .zones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .zone-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .zone-card::before {
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), transparent);
+    opacity:0;
+    transition: opacity 0.25s;
+  }
+
+  .zone-card:hover::before, .zone-card.active::before { opacity:1; }
+  .zone-card:hover, .zone-card.active { border-color: var(--gold); }
+  .zone-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .zone-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+  .zone-fee { font-size: 13px; color: var(--gold); font-weight: 500; }
+  .zone-time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .zone-card.active .zone-name { color: var(--gold-light); }
+
+  .cutoff-banner { max-width: 900px; margin: 0 auto 50px; padding: 0 24px; }
+
+  .cutoff-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .cutoff-inner strong { color: var(--gold); }
+
+  /* SEARCH */
+  .search-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto 24px;
+    padding: 0 24px;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 18px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--gold); }
+  .search-input::placeholder { color: var(--text-muted); }
+
+  .categories {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cat-btn {
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text-muted);
+    padding: 8px 18px;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cat-btn:hover, .cat-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
+
+  .products-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--text); }
+  .product-count { font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.25s;
+    cursor: pointer;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .product-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .product-img-inner {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    background: linear-gradient(135deg, var(--surface2), var(--mid));
+    position: relative;
+  }
+
+  .store-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 2px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .store-badge.clicks { background: rgba(0,120,60,0.85); color: #7fff9f; border: 1px solid rgba(0,180,80,0.4); }
+  .store-badge.dischem { background: rgba(180,30,30,0.85); color: #ffaaaa; border: 1px solid rgba(220,60,60,0.4); }
+  .store-badge.both { background: rgba(100,60,180,0.85); color: #d4b0ff; border: 1px solid rgba(140,80,220,0.4); }
+
+  .product-body { padding: 16px; }
+  .product-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+  .product-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--gold); }
+
+  .add-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .add-btn:hover { background: var(--gold-light); transform: scale(1.05); }
+  .add-btn:active { transform: scale(0.98); }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-drawer {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(420px, 100vw);
+    background: var(--charcoal);
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+  }
+
+  .cart-drawer.open { transform: translateX(0); }
+
+  .drawer-head {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drawer-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; }
+
+  .close-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .drawer-body { flex: 1; overflow-y: auto; padding: 24px; }
+
+  .empty-cart { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .empty-cart .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-cart p { font-size: 14px; }
+
+  .cart-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .cart-item-icon { width: 52px; height: 52px; background: var(--surface2); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .cart-item-store { font-size: 10px; color: var(--gold); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .cart-item-controls { display: flex; align-items: center; gap: 10px; }
+
+  .qty-btn {
+    width: 24px; height: 24px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .qty-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .qty-display { font-size: 13px; min-width: 20px; text-align: center; }
+  .cart-item-price { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold); font-weight: 600; align-self: center; }
+
+  .cart-zone-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin: 20px 0; }
+  .cart-zone-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+
+  .cart-zone-select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .cart-zone-select:focus { border-color: var(--gold); }
+
+  .address-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    margin-top: 10px;
+    outline: none;
+    resize: none;
+  }
+
+  .address-input:focus { border-color: var(--gold); }
+  .address-input::placeholder { color: var(--text-muted); }
+
+  .order-summary { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; }
+
+  .summary-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+
+  .summary-row.total { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--text); }
+
+  .summary-row.total span:last-child { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-weight: 600; }
+
+  .delivery-note { font-size: 11px; color: var(--text-muted); background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15); border-radius: var(--radius); padding: 10px 12px; line-height: 1.6; margin-bottom: 16px; }
+  .delivery-note strong { color: var(--gold); }
+
+  .customer-section { margin-bottom: 16px; }
+  .input-group { margin-bottom: 10px; }
+  .input-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 6px; }
+
+  .text-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .text-input:focus { border-color: var(--gold); }
+  .text-input::placeholder { color: var(--text-muted); }
+
+  .checkout-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .checkout-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .checkout-btn:active { transform: translateY(0); }
+  .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .payfast-note { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 40px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal-icon { font-size: 48px; margin-bottom: 20px; }
+  .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; margin-bottom: 12px; }
+  .modal p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+  .modal-amount { font-family: 'Cormorant Garamond', serif; font-size: 40px; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+  .modal-ref { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 28px; }
+
+  .modal-btn { background: var(--gold); color: var(--black); border: none; padding: 14px 32px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius); width: 100%; margin-bottom: 10px; transition: all 0.2s; }
+  .modal-btn:hover { background: var(--gold-light); }
+
+  .modal-btn-sec { background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 12px 32px; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; border-radius: var(--radius); width: 100%; transition: all 0.2s; }
+  .modal-btn-sec:hover { border-color: var(--gold); color: var(--gold); }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--gold);
+    color: var(--black);
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 400;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold); margin-bottom: 8px; }
+  footer p { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media (max-width: 600px) {
+    .zones { grid-template-columns: 1fr 1fr; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LFashionwear <span>Beauty</span></div>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Midrand & Sandton · Same-Day Delivery</div>
+  <h1>Your Personal<br><em>Beauty Shopper</em></h1>
+  <p>We shop Clicks & Dis-Chem on your behalf and deliver straight to your door. Order by 10AM for 2PM delivery. Order by 2PM for 6PM delivery.</p>
+</section>
+
+<div class="zone-section">
+  <span class="zone-label">📍 Select Your Delivery Area</span>
+  <div class="zones" id="zonesGrid"></div>
+</div>
+
+<div class="cutoff-banner">
+  <div class="cutoff-inner">
+    ⏰ <span><strong>Order by 10AM</strong> for 2PM delivery &nbsp;·&nbsp; <strong>Order by 2PM</strong> for 6PM delivery &nbsp;·&nbsp; Monday – Saturday</span>
+  </div>
+</div>
+
+<div class="search-section">
+  <input type="text" class="search-input" id="searchInput" placeholder="🔍  Search products, brands..." oninput="renderProducts()">
+</div>
+
+<div class="categories" id="categoriesBar"></div>
+
+<div class="products-section">
+  <div class="section-header">
+    <div class="section-title" id="sectionTitle">All Products</div>
+    <div class="product-count" id="productCount"></div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<footer>
+  <div class="footer-logo">LFashionwear Beauty</div>
+  <p>
+    Personal shopping & same-day delivery · Midrand & Sandton, Gauteng<br>
+    <a href="tel:0763411780">076 341 1780</a> &nbsp;·&nbsp;
+    <a href="mailto:lonasmithhq@gmail.com">lonasmithhq@gmail.com</a><br>
+    Secure payments via PayFast · Gold Fundamentals (Pty) Ltd
+  </p>
+</footer>
+
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-head">
+    <div class="drawer-title">Your Order</div>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-icon">✨</div>
+    <h2>Confirm Your Order</h2>
+    <div class="modal-amount" id="modalAmount">R0.00</div>
+    <div class="modal-ref" id="modalRef">ORDER REF: —</div>
+    <p id="modalDesc">Your personal shopper will collect your items and deliver to your address.</p>
+    <button class="modal-btn" onclick="processPayFast()">Pay via PayFast →</button>
+    <button class="modal-btn-sec" onclick="closeModal()">Edit Order</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ZONES = [
+  { id:'midrand-close', name:'Midrand', sub:'Halfway Gardens & surrounds', fee:50, time:'1–2 hrs' },
+  { id:'midrand-far', name:'Midrand Extended', sub:'Vorna Valley, Carlswald, Kyalami', fee:80, time:'2–3 hrs' },
+  { id:'sandton-close', name:'Sandton', sub:'Sandton CBD, Bryanston, Morningside', fee:120, time:'2–4 hrs' },
+  { id:'sandton-far', name:'Sandton Extended', sub:'Fourways, Rivonia, Paulshof', fee:150, time:'3–5 hrs' },
+  { id:'rosebank', name:'Rosebank / Illovo', sub:'Rosebank, Illovo, Hyde Park', fee:150, time:'3–5 hrs' },
+  { id:'centurion', name:'Centurion', sub:'Centurion, Irene, Lyttelton', fee:130, time:'3–5 hrs' },
+];
+
+const CATEGORIES = ['All','Skincare','Haircare','Makeup','Fragrance','Body Care','Baby & Mom','Men\'s Grooming','Health & Wellness','Tools & Accessories'];
+
+// C = Clicks, D = Dis-Chem, B = Both
+const PRODUCTS = [
+  // ─── SKINCARE ────────────────────────────────────────────────
+  {id:1,   name:'Cetaphil Gentle Skin Cleanser 500ml',        desc:'Mild soap-free cleanser for sensitive skin',               price:189, cat:'Skincare', icon:'🧴', store:'C'},
+  {id:2,   name:'Cetaphil Moisturising Cream 250g',           desc:'Rich daily cream for dry & sensitive skin',                price:169, cat:'Skincare', icon:'🧴', store:'C'},
+  {id:3,   name:'Neutrogena Hydro Boost Water Gel 50ml',      desc:'Hyaluronic acid gel-cream, oil-free hydration',           price:249, cat:'Skincare', icon:'💧', store:'C'},
+  {id:4,   name:'Neutrogena Deep Clean Cleanser 200ml',       desc:'Salicylic acid formula, pore-cleansing',                  price:139, cat:'Skincare', icon:'💧', store:'C'},
+  {id:5,   name:'La Roche-Posay Anthelios SPF50+ 50ml',       desc:'Invisible fluid daily UV protection',                     price:339, cat:'Skincare', icon:'☀️', store:'D'},
+  {id:6,   name:'La Roche-Posay Effaclar Cleanser 200ml',     desc:'Purifying foaming gel for oily skin',                    price:249, cat:'Skincare', icon:'☀️', store:'D'},
+  {id:7,   name:'Garnier Vitamin C Brightening Serum 30ml',   desc:'Even skin tone, anti-dark spot',                         price:219, cat:'Skincare', icon:'✨', store:'C'},
+  {id:8,   name:'Garnier Micellar Cleansing Water 400ml',     desc:'No-rinse gentle makeup remover',                         price:109, cat:'Skincare', icon:'✨', store:'C'},
+  {id:9,   name:'Bioderma Sensibio Micellar Water 500ml',     desc:'No 1 dermatologist micellar water',                      price:259, cat:'Skincare', icon:'💦', store:'D'},
+  {id:10,  name:'Eucerin Q10 Anti-Wrinkle Day Cream 50ml',    desc:'Coenzyme Q10 smoothing cream SPF15',                     price:279, cat:'Skincare', icon:'🌿', store:'D'},
+  {id:11,  name:'Eucerin Hyaluron-Filler Serum 30ml',         desc:'Deep anti-wrinkle hyaluronic serum',                     price:389, cat:'Skincare', icon:'🌿', store:'D'},
+  {id:12,  name:'Olay Total Effects 7-in-1 Cream 50ml',       desc:'Anti-ageing moisturiser with SPF15',                     price:199, cat:'Skincare', icon:'🌟', store:'C'},
+  {id:13,  name:'Olay Regenerist Micro-Sculpting Cream',      desc:'Niacinamide + peptide firming cream',                    price:259, cat:'Skincare', icon:'🌟', store:'C'},
+  {id:14,  name:'Nivea Soft Refreshingly Soft Cream 300ml',   desc:'Jojoba oil & Vitamin E light cream',                     price:89,  cat:'Skincare', icon:'🩵', store:'B'},
+  {id:15,  name:'Nivea Cellular Anti-Age Day Cream 50ml',     desc:'Hyaluronic acid & UV filter',                            price:199, cat:'Skincare', icon:'🩵', store:'B'},
+  {id:16,  name:'Simple Kind to Skin Moisturiser 125ml',      desc:'No perfume, no dyes, daily hydration',                   price:139, cat:'Skincare', icon:'🕊️', store:'C'},
+  {id:17,  name:'Clean & Clear Morning Energy Scrub 150ml',   desc:'Brightening face scrub with orange extract',             price:99,  cat:'Skincare', icon:'🍊', store:'C'},
+  {id:18,  name:'St Ives Apricot Face Scrub 150ml',           desc:'100% natural exfoliants, clears pores',                  price:119, cat:'Skincare', icon:'🍑', store:'D'},
+  {id:19,  name:'Himalaya Purifying Neem Scrub 75ml',         desc:'Natural antibacterial face scrub',                       price:89,  cat:'Skincare', icon:'🌱', store:'D'},
+  {id:20,  name:'ToneSkin Even Tone Cream 150ml',             desc:'SA brand, kojic acid dark spot corrector',               price:129, cat:'Skincare', icon:'💛', store:'C'},
+
+  // ─── HAIRCARE ────────────────────────────────────────────────
+  {id:21,  name:'TRESemmé Keratin Smooth Shampoo 900ml',      desc:'Frizz control salon-size shampoo',                       price:129, cat:'Haircare', icon:'🧖🏾‍♀️', store:'C'},
+  {id:22,  name:'TRESemmé Keratin Smooth Conditioner 900ml',  desc:'Pairs with Keratin shampoo for smooth finish',           price:129, cat:'Haircare', icon:'🧖🏾‍♀️', store:'C'},
+  {id:23,  name:'Pantene Gold Series Shampoo 300ml',          desc:'Sulfate-free for natural African hair',                  price:129, cat:'Haircare', icon:'🌟', store:'D'},
+  {id:24,  name:'Pantene Gold Series Conditioner 300ml',      desc:'Deep conditioning for coily hair',                      price:139, cat:'Haircare', icon:'🌟', store:'D'},
+  {id:25,  name:'Pantene Gold Series Mask 300ml',             desc:'Intense moisture treatment',                             price:159, cat:'Haircare', icon:'🌟', store:'D'},
+  {id:26,  name:'ORS Olive Oil Edge Control 64g',             desc:'Mega hold, smooth edges all day',                       price:119, cat:'Haircare', icon:'🫒', store:'C'},
+  {id:27,  name:'ORS Olive Oil Moisturising Shampoo 370ml',   desc:'Deep cleansing with olive & tea tree oil',              price:99,  cat:'Haircare', icon:'🫒', store:'C'},
+  {id:28,  name:'Cantu Shea Butter Leave-In Conditioner',     desc:'Deep moisture for curly & coily hair 453g',             price:189, cat:'Haircare', icon:'🥥', store:'D'},
+  {id:29,  name:'Cantu Shea Butter Curl Activator Cream',     desc:'Defines curls, reduces frizz 355g',                    price:179, cat:'Haircare', icon:'🥥', store:'D'},
+  {id:30,  name:'Dark & Lovely Moisture Plus Hair Food 250ml',desc:'Scalp moisturiser & shine treatment',                   price:89,  cat:'Haircare', icon:'🌺', store:'C'},
+  {id:31,  name:'Schwarzkopf Gliss Hair Repair Shampoo 400ml',desc:'Liquid Keratin for damaged hair',                       price:109, cat:'Haircare', icon:'⚡', store:'D'},
+  {id:32,  name:'Schwarzkopf Gliss Total Repair Mask 200ml',  desc:'7-second express deep repair mask',                    price:149, cat:'Haircare', icon:'⚡', store:'D'},
+  {id:33,  name:'Dove Intensive Repair Shampoo 400ml',        desc:'Keratin Actives for damaged hair',                      price:89,  cat:'Haircare', icon:'🕊️', store:'B'},
+  {id:34,  name:'Dove Intensive Repair Conditioner 400ml',    desc:'Nourishing conditioner for brittle hair',               price:89,  cat:'Haircare', icon:'🕊️', store:'B'},
+  {id:35,  name:'SoftSheen-Carson Magic Relaxer Regular',     desc:'Hair relaxer system with neutralising shampoo',         price:149, cat:'Haircare', icon:'💫', store:'C'},
+  {id:36,  name:'Africa\'s Best Organics Olive Oil 237ml',    desc:'Sheen spray for natural & relaxed hair',               price:99,  cat:'Haircare', icon:'🌿', store:'C'},
+  {id:37,  name:'Argan Secret Argan Oil Treatment 100ml',     desc:'Frizz control & shine serum',                          price:199, cat:'Haircare', icon:'💛', store:'D'},
+  {id:38,  name:'CHI Keratin Silk Infusion 177ml',            desc:'Reconstructing complex for all hair types',             price:299, cat:'Haircare', icon:'💎', store:'D'},
+
+  // ─── MAKEUP ──────────────────────────────────────────────────
+  {id:39,  name:'Revlon ColorStay Foundation 30ml',           desc:'24hr wear SPF20, multiple shades',                      price:249, cat:'Makeup', icon:'💄', store:'C'},
+  {id:40,  name:'Revlon Age Defying Foundation',              desc:'Anti-ageing, buildable coverage',                       price:259, cat:'Makeup', icon:'💄', store:'C'},
+  {id:41,  name:'Maybelline Fit Me Concealer',                desc:'Blendable natural-finish concealer, 10 shades',         price:169, cat:'Makeup', icon:'🎨', store:'D'},
+  {id:42,  name:'Maybelline Fit Me Matte Foundation',         desc:'Oil-free, pore-minimising, 40 shades',                 price:229, cat:'Makeup', icon:'🎨', store:'D'},
+  {id:43,  name:'Maybelline SuperStay 24H Foundation',        desc:'Full coverage, transfer-resistant',                     price:249, cat:'Makeup', icon:'🎨', store:'D'},
+  {id:44,  name:'NYX Professional Matte Lipstick',            desc:'Velvet finish, 20 long-lasting shades',                price:189, cat:'Makeup', icon:'💋', store:'C'},
+  {id:45,  name:'NYX Butter Gloss Lip Gloss',                 desc:'Non-sticky glossy finish, sheer colour',               price:169, cat:'Makeup', icon:'💋', store:'C'},
+  {id:46,  name:'NYX HD Studio Photogenic Primer',            desc:'Silicone-based pore-blurring primer',                  price:199, cat:'Makeup', icon:'💋', store:'C'},
+  {id:47,  name:'Rimmel London Volume Shake Mascara',         desc:'Up to 5x volume, smudge-proof',                        price:149, cat:'Makeup', icon:'👁️', store:'D'},
+  {id:48,  name:'Rimmel Lasting Finish Lipstick',             desc:'12hr stay, rich colour payoff',                        price:129, cat:'Makeup', icon:'👁️', store:'D'},
+  {id:49,  name:'Rimmel Scandaleyes Liner',                   desc:'Waterproof kohl liner, intense black',                 price:109, cat:'Makeup', icon:'👁️', store:'D'},
+  {id:50,  name:'L\'Oréal Paris Infallible 24H Foundation',   desc:'24hr coverage, 35 inclusive shades',                   price:259, cat:'Makeup', icon:'🌹', store:'C'},
+  {id:51,  name:'L\'Oréal Paris True Match Concealer',        desc:'Serum-infused concealer, 10 shades',                   price:189, cat:'Makeup', icon:'🌹', store:'C'},
+  {id:52,  name:'L\'Oréal Paris Lash Paradise Mascara',       desc:'Feathery full lashes, no clumping',                    price:169, cat:'Makeup', icon:'🌹', store:'C'},
+  {id:53,  name:'Essence Lash Princess Mascara',              desc:'Fan effect false-lash look, budget hero',              price:79,  cat:'Makeup', icon:'🖤', store:'D'},
+  {id:54,  name:'Essence Lip Liner',                          desc:'Precise long-lasting lip liner',                       price:59,  cat:'Makeup', icon:'🖤', store:'D'},
+  {id:55,  name:'Wet n Wild Color Icon Eyeshadow Palette',    desc:'10-shade blendable pressed pigments',                  price:169, cat:'Makeup', icon:'🎭', store:'C'},
+  {id:56,  name:'Bourjois Paris Rouge Velvet Lipstick',       desc:'Matte finish, 24hr hold, French formula',              price:199, cat:'Makeup', icon:'🇫🇷', store:'D'},
+
+  // ─── FRAGRANCE ───────────────────────────────────────────────
+  {id:57,  name:'Yardley English Lavender EDT 50ml',          desc:'Classic floral fragrance, elegant & fresh',             price:199, cat:'Fragrance', icon:'💜', store:'C'},
+  {id:58,  name:'Yardley English Rose EDT 50ml',              desc:'Timeless rose, powdery feminine scent',                price:199, cat:'Fragrance', icon:'🌹', store:'C'},
+  {id:59,  name:'Elizabeth Arden Green Tea EDP 30ml',         desc:'Fresh citrus & green tea notes',                       price:289, cat:'Fragrance', icon:'🍵', store:'D'},
+  {id:60,  name:'Elizabeth Arden 5th Avenue EDP 30ml',        desc:'Floral bouquet, iconic feminine fragrance',             price:349, cat:'Fragrance', icon:'🗽', store:'D'},
+  {id:61,  name:'Adidas Pure Game EDT 100ml',                 desc:'Fresh aquatic sporty scent for men',                   price:159, cat:'Fragrance', icon:'🏃', store:'C'},
+  {id:62,  name:'Adidas Moves for Her EDT 50ml',              desc:'Soft floral citrus women\'s fragrance',                price:129, cat:'Fragrance', icon:'💃', store:'C'},
+  {id:63,  name:'Old Spice Original Body Spray 150ml',        desc:'Classic iconic masculine scent',                       price:89,  cat:'Fragrance', icon:'⚓', store:'B'},
+  {id:64,  name:'Axe Dark Temptation Body Spray 150ml',       desc:'Dark chocolate inspired masculine scent',              price:79,  cat:'Fragrance', icon:'🍫', store:'B'},
+  {id:65,  name:'Rexona Women Confidence Body Spray 150ml',   desc:'48hr protection with light floral notes',              price:79,  cat:'Fragrance', icon:'🌸', store:'B'},
+  {id:66,  name:'Lux Velvet Jasmine Perfumed Body Spray',     desc:'Long-lasting jasmine & musk body mist',               price:79,  cat:'Fragrance', icon:'🌺', store:'C'},
+  {id:67,  name:'Brut Original EDT 100ml',                    desc:'Classic men\'s freshness, retro icon',                price:129, cat:'Fragrance', icon:'💈', store:'D'},
+
+  // ─── BODY CARE ────────────────────────────────────────────────
+  {id:68,  name:'Palmer\'s Cocoa Butter Formula Lotion 400ml',desc:'Stretch mark formula, deep moisture',                  price:129, cat:'Body Care', icon:'🍫', store:'C'},
+  {id:69,  name:'Palmer\'s Cocoa Butter Massage Cream 250g',  desc:'Concentrated cream for bump & beyond',                price:109, cat:'Body Care', icon:'🍫', store:'C'},
+  {id:70,  name:'Vaseline Intensive Care Advanced Repair 400ml',desc:'Fast-absorbing repair lotion',                      price:89,  cat:'Body Care', icon:'💙', store:'B'},
+  {id:71,  name:'Vaseline Aloe Soothe Body Gel 200ml',        desc:'Lightweight cool gel with aloe vera',                 price:99,  cat:'Body Care', icon:'💙', store:'B'},
+  {id:72,  name:'Dove Body Wash Sensitive Skin 750ml',        desc:'Hypoallergenic, 0% sulphates',                        price:119, cat:'Body Care', icon:'🕊️', store:'B'},
+  {id:73,  name:'Dove Go Fresh Body Wash Cucumber 750ml',     desc:'Refreshing & light, daily shower gel',                price:109, cat:'Body Care', icon:'🕊️', store:'B'},
+  {id:74,  name:'Lux Luminique Body Butter 200ml',            desc:'Shea butter & Vitamin E luxury cream',                price:159, cat:'Body Care', icon:'🌸', store:'D'},
+  {id:75,  name:'Jergens Natural Glow Daily Moisturiser',     desc:'Gradual self-tanning body lotion 400ml',              price:189, cat:'Body Care', icon:'☀️', store:'D'},
+  {id:76,  name:'Nivea In-Shower Body Lotion 400ml',          desc:'Apply in shower, no rinsing needed',                  price:129, cat:'Body Care', icon:'🩵', store:'B'},
+  {id:77,  name:'Ambi Even & Clear Exfoliating Wash 180g',    desc:'Glycolic acid body wash, dark spots',                 price:119, cat:'Body Care', icon:'✨', store:'C'},
+  {id:78,  name:'St Ives Oatmeal & Shea Body Lotion 400ml',  desc:'Extra-dry skin, 100% natural exfoliants',             price:119, cat:'Body Care', icon:'🌾', store:'D'},
+  {id:79,  name:'Careline Body Lotion Rose 400ml',            desc:'Affordable daily moisturiser, light rose scent',      price:59,  cat:'Body Care', icon:'🌷', store:'C'},
+  {id:80,  name:'Clere Glycerine & Rose Water 400ml',         desc:'SA-loved classic skin softener',                      price:49,  cat:'Body Care', icon:'🌹', store:'B'},
+
+  // ─── BABY & MOM ───────────────────────────────────────────────
+  {id:81,  name:'Johnson\'s Baby Wash & Shampoo 500ml',       desc:'No more tears formula, gentle daily wash',            price:99,  cat:'Baby & Mom', icon:'👶', store:'B'},
+  {id:82,  name:'Johnson\'s Baby Lotion 500ml',               desc:'Clinically mild, 24hr moisture',                      price:99,  cat:'Baby & Mom', icon:'👶', store:'B'},
+  {id:83,  name:'Johnson\'s Baby Powder 200g',                desc:'Classic talc-free soothing powder',                  price:79,  cat:'Baby & Mom', icon:'👶', store:'B'},
+  {id:84,  name:'Sudocrem Antiseptic Healing Cream 250g',     desc:'Nappy rash, cuts, eczema relief',                    price:149, cat:'Baby & Mom', icon:'🍼', store:'D'},
+  {id:85,  name:'Bepanthen Nappy Care Ointment 100g',         desc:'Protects & heals nappy rash',                        price:119, cat:'Baby & Mom', icon:'🍼', store:'D'},
+  {id:86,  name:'Clicks Nursing Pads 30 Pack',                desc:'Breathable disposable breast pads',                  price:89,  cat:'Baby & Mom', icon:'🤱', store:'C'},
+  {id:87,  name:'Rooibos Baby Body Wash 200ml',               desc:'SA organic rooibos gentle baby wash',                price:89,  cat:'Baby & Mom', icon:'🫖', store:'D'},
+
+  // ─── MEN'S GROOMING ───────────────────────────────────────────
+  {id:88,  name:'Gillette Fusion ProGlide Razor',             desc:'5-blade precision shave cartridge handle',            price:249, cat:"Men's Grooming", icon:'🪒', store:'B'},
+  {id:89,  name:'Gillette Fusion Shave Gel 200ml',            desc:'Extra comfort, sensitive skin formula',              price:99,  cat:"Men's Grooming", icon:'🪒', store:'B'},
+  {id:90,  name:'Nivea Men Sensitive Face Wash 100ml',        desc:'0% alcohol, chamomile soothing cleanser',            price:89,  cat:"Men's Grooming", icon:'👨', store:'B'},
+  {id:91,  name:'Nivea Men Dark Spot Reduction Cream 50ml',   desc:'Even tone, SPF 20 for men',                         price:129, cat:"Men's Grooming", icon:'👨', store:'B'},
+  {id:92,  name:'L\'Oréal Paris Men Expert Face Wash 100ml',  desc:'Charcoal detox purifying cleanser',                 price:119, cat:"Men's Grooming", icon:'🖤', store:'C'},
+  {id:93,  name:'Dove Men+Care Body Wash 750ml',              desc:'Extra fresh, skin comfort formula',                   price:109, cat:"Men's Grooming", icon:'🕊️', store:'B'},
+  {id:94,  name:'Lynx Africa Body Spray 150ml',               desc:'Iconic amber & sandalwood signature scent',          price:89,  cat:"Men's Grooming", icon:'🌍', store:'B'},
+  {id:95,  name:'Wahl Clipper Oil 118ml',                     desc:'Keeps blades sharp and rust-free',                   price:119, cat:"Men's Grooming", icon:'✂️', store:'D'},
+
+  // ─── HEALTH & WELLNESS ────────────────────────────────────────
+  {id:96,  name:'Dis-Chem Multivitamin Women 60 Caps',        desc:'Daily essentials + folic acid for women',            price:189, cat:'Health & Wellness', icon:'💊', store:'D'},
+  {id:97,  name:'Vit-C 1000mg Effervescent 30 Tabs',         desc:'Immune support, orange flavour',                     price:109, cat:'Health & Wellness', icon:'🍊', store:'B'},
+  {id:98,  name:'Omega-3 Fish Oil 1000mg 30 Caps',           desc:'Heart, brain & joint support',                       price:149, cat:'Health & Wellness', icon:'🐟', store:'B'},
+  {id:99,  name:'Biotin 5000mcg 60 Tabs',                    desc:'Hair, skin & nail strength support',                 price:169, cat:'Health & Wellness', icon:'💅', store:'D'},
+  {id:100, name:'Rooibos Extract Antioxidant 60 Caps',        desc:'SA superfood, anti-inflammatory',                    price:189, cat:'Health & Wellness', icon:'🌿', store:'D'},
+  {id:101, name:'Pro Natura Melatonin 3mg 60 Tabs',           desc:'Natural sleep support, non-habit forming',           price:129, cat:'Health & Wellness', icon:'🌙', store:'D'},
+  {id:102, name:'Clicks Collagen Powder 200g',                desc:'Marine collagen for skin elasticity',                price:299, cat:'Health & Wellness', icon:'✨', store:'C'},
+
+  // ─── TOOLS & ACCESSORIES ──────────────────────────────────────
+  {id:103, name:'Denman D4 Hair Brush Classic',               desc:'Anti-static 9-row brush, all hair types',            price:149, cat:'Tools & Accessories', icon:'🪮', store:'C'},
+  {id:104, name:'Tangle Teezer The Original',                 desc:'Detangling brush, wet & dry hair',                   price:199, cat:'Tools & Accessories', icon:'🪮', store:'D'},
+  {id:105, name:'Tweezerman Precision Stainless Tweezers',    desc:'Slant tip, perfectly aligned stainless steel',       price:189, cat:'Tools & Accessories', icon:'✂️', store:'D'},
+  {id:106, name:'Real Techniques Core Collection Brushes',    desc:'5-piece professional makeup brush set',              price:349, cat:'Tools & Accessories', icon:'🖌️', store:'C'},
+  {id:107, name:'Beautyblender Original Sponge',              desc:'Iconic pink sponge, flawless blending',              price:249, cat:'Tools & Accessories', icon:'🩷', store:'C'},
+  {id:108, name:'Revlon Salon One-Step Hair Dryer Brush',     desc:'Volumising dryer & styler in one tool',              price:699, cat:'Tools & Accessories', icon:'💨', store:'D'},
+  {id:109, name:'Conair Nail Kit 10-Piece',                   desc:'Complete home manicure & pedicure set',              price:149, cat:'Tools & Accessories', icon:'💅', store:'C'},
+  {id:110, name:'Clicks Satin Sleep Hair Bonnet',             desc:'XL satin-lined sleeping cap for natural hair',       price:79,  cat:'Tools & Accessories', icon:'😴', store:'C'},
+  {id:111, name:'Clicks Exfoliating Bath Mitt',               desc:'Double-sided exfoliating glove',                     price:49,  cat:'Tools & Accessories', icon:'🧤', store:'C'},
+  {id:112, name:'Dis-Chem Konjac Facial Sponge',             desc:'Natural plant-based gentle exfoliator',              price:89,  cat:'Tools & Accessories', icon:'🫧', store:'D'},
+  {id:113, name:'Clicks Silicone Facial Cleansing Brush',    desc:'Sonic vibration, deep pore cleansing',               price:199, cat:'Tools & Accessories', icon:'🔵', store:'C'},
+];
+
+let cart = [];
+let selectedZone = null;
+let activeCategory = 'All';
+
+function storeClass(s) {
+  if (s === 'C') return 'clicks';
+  if (s === 'D') return 'dischem';
+  return 'both';
+}
+
+function storeLabel(s) {
+  if (s === 'C') return 'Clicks';
+  if (s === 'D') return 'Dis-Chem';
+  return 'Clicks · Dis-Chem';
+}
+
+function renderZones() {
+  document.getElementById('zonesGrid').innerHTML = ZONES.map(z => `
+    <div class="zone-card ${selectedZone?.id === z.id ? 'active' : ''}" onclick="selectZone('${z.id}')">
+      <div class="zone-name">${z.name}</div>
+      <div class="zone-sub">${z.sub}</div>
+      <div class="zone-fee">R${z.fee} delivery fee</div>
+      <div class="zone-time">⏱ ${z.time} after collection</div>
+    </div>
+  `).join('');
+}
+
+function selectZone(id) {
+  selectedZone = ZONES.find(z => z.id === id);
+  renderZones();
+  renderDrawer();
+  showToast(`📍 Delivery to ${selectedZone.name} — R${selectedZone.fee}`);
+}
+
+function renderCategories() {
+  document.getElementById('categoriesBar').innerHTML = CATEGORIES.map(c => `
+    <button class="cat-btn ${activeCategory === c ? 'active' : ''}" onclick="filterCat('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join('');
+}
+
+function filterCat(cat) {
+  activeCategory = cat;
+  renderCategories();
+  renderProducts();
+}
+
+function renderProducts() {
+  const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  let filtered = activeCategory === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeCategory);
+  if (query) {
+    filtered = filtered.filter(p =>
+      p.name.toLowerCase().includes(query) ||
+      p.desc.toLowerCase().includes(query) ||
+      storeLabel(p.store).toLowerCase().includes(query)
+    );
+  }
+
+  document.getElementById('sectionTitle').textContent = activeCategory === 'All' ? 'All Products' : activeCategory;
+  document.getElementById('productCount').textContent = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+
+  document.getElementById('productsGrid').innerHTML = filtered.map((p, i) => `
+    <div class="product-card" style="animation-delay:${i * 0.03}s">
+      <div class="product-img-inner">
+        ${p.icon}
+        <div class="store-badge ${storeClass(p.store)}">${storeLabel(p.store)}</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div class="product-price">R${p.price}</div>
+          <button class="add-btn" onclick="addToCart(${p.id})">+ Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  const existing = cart.find(c => c.id === id);
+  if (existing) { existing.qty++; } else { cart.push({ ...product, qty: 1 }); }
+  updateCartCount();
+  renderDrawer();
+  showToast(`✓ ${product.name.split(' ').slice(0,4).join(' ')} added`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartCount();
+  renderDrawer();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) { removeFromCart(id); return; }
+  updateCartCount();
+  renderDrawer();
+}
+
+function updateCartCount() {
+  document.getElementById('cartCount').textContent = cart.reduce((s, c) => s + c.qty, 0);
+}
+
+function getSubtotal() { return cart.reduce((s, c) => s + c.price * c.qty, 0); }
+function getDeliveryFee() { return selectedZone ? selectedZone.fee : 0; }
+function getServiceFee() { return Math.round(getSubtotal() * 0.05); }
+function getTotal() { return getSubtotal() + getDeliveryFee() + getServiceFee(); }
+
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+  renderDrawer();
+}
+
+function renderDrawer() {
+  const body = document.getElementById('drawerBody');
+  if (cart.length === 0) {
+    body.innerHTML = `<div class="empty-cart"><div class="empty-icon">🛒</div><p>Your cart is empty.<br>Add some beauty products!</p></div>`;
+    return;
+  }
+
+  const subtotal = getSubtotal();
+  const deliveryFee = getDeliveryFee();
+  const serviceFee = getServiceFee();
+  const total = subtotal + deliveryFee + serviceFee;
+  const stores = [...new Set(cart.map(i => storeLabel(i.store)))].join(' & ');
+
+  body.innerHTML = `
+    ${cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-icon">${item.icon}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-store">${storeLabel(item.store)}</div>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+            <span class="qty-display">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id}, +1)">+</button>
+          </div>
+        </div>
+        <div class="cart-item-price">R${item.price * item.qty}</div>
+      </div>
+    `).join('')}
+
+    <div class="cart-zone-section">
+      <div class="cart-zone-label">📍 Delivery Zone</div>
+      <select class="cart-zone-select" onchange="selectZoneFromCart(this.value)">
+        <option value="">Select your area...</option>
+        ${ZONES.map(z => `<option value="${z.id}" ${selectedZone?.id === z.id ? 'selected' : ''}>${z.name} — R${z.fee} (${z.time})</option>`).join('')}
+      </select>
+      <textarea class="address-input" id="deliveryAddress" placeholder="Enter your full delivery address..." rows="2"></textarea>
+    </div>
+
+    <div class="customer-section">
+      <div class="input-group">
+        <label class="input-label">Your Name</label>
+        <input type="text" class="text-input" id="custName" placeholder="Full name">
+      </div>
+      <div class="input-group">
+        <label class="input-label">WhatsApp Number</label>
+        <input type="tel" class="text-input" id="custPhone" placeholder="e.g. 076 341 1780">
+      </div>
+    </div>
+
+    <div class="delivery-note">
+      <strong>How it works:</strong> Pay below, then your personal shopper collects from 
+      <strong>${stores}</strong> and delivers to your door. You'll receive a WhatsApp update when we're on our way.
+    </div>
+
+    <div class="order-summary">
+      <div class="summary-row"><span>Products (${cart.reduce((s,c)=>s+c.qty,0)} items)</span><span>R${subtotal}</span></div>
+      <div class="summary-row"><span>Service fee (5%)</span><span>R${serviceFee}</span></div>
+      <div class="summary-row">
+        <span>Delivery${selectedZone ? ` · ${selectedZone.name}` : ''}</span>
+        <span style="color:${deliveryFee > 0 ? 'var(--gold)' : 'var(--text-muted)'}">
+          ${deliveryFee > 0 ? 'R' + deliveryFee : 'Select zone'}
+        </span>
+      </div>
+      <div class="summary-row total"><span>Total</span><span>R${total}</span></div>
+    </div>
+
+    <button class="checkout-btn" onclick="openModal()" ${!selectedZone ? 'disabled' : ''}>
+      ${!selectedZone ? 'Select Delivery Zone First' : `Pay R${total} via PayFast →`}
+    </button>
+    <div class="payfast-note">🔒 Secured by PayFast · EFT, Card & SnapScan accepted</div>
+  `;
+}
+
+function selectZoneFromCart(id) {
+  selectedZone = ZONES.find(z => z.id === id) || null;
+  renderZones();
+  renderDrawer();
+}
+
+function openModal() {
+  const name = document.getElementById('custName')?.value?.trim();
+  const phone = document.getElementById('custPhone')?.value?.trim();
+  const address = document.getElementById('deliveryAddress')?.value?.trim();
+  if (!name || !phone || !address) { showToast('⚠️ Please fill in your name, phone & address'); return; }
+  const total = getTotal();
+  const ref = 'LFB-' + Date.now().toString().slice(-6);
+  document.getElementById('modalAmount').textContent = 'R' + total;
+  document.getElementById('modalRef').textContent = 'ORDER REF: ' + ref;
+  document.getElementById('modalDesc').textContent = `Delivery to ${selectedZone.name} · ${selectedZone.time} · ${name} · ${phone}`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+function processPayFast() {
+  const name = document.getElementById('custName')?.value?.trim() || '';
+  const phone = document.getElementById('custPhone')?.value?.trim() || '';
+  const address = document.getElementById('deliveryAddress')?.value?.trim() || '';
+  const total = getTotal().toFixed(2);
+  const ref = 'LFB-' + Date.now().toString().slice(-6);
+  const itemNames = cart.map(i => `${i.qty}x ${i.name}`).join(', ');
+  const itemDesc = `Beauty delivery to ${selectedZone?.name} | ${address} | ${phone} | ${itemNames}`;
+
+  const params = new URLSearchParams({
+    merchant_id: '13828243',
+    merchant_key: 'bujciooz9vr6i',
+    return_url: 'https://goldfundamentals.co.za/thank-you',
+    cancel_url: 'https://goldfundamentals.co.za/cancel',
+    notify_url: 'https://goldfundamentals.co.za/payfast-itn',
+    name_first: name.split(' ')[0] || 'Customer',
+    name_last: name.split(' ').slice(1).join(' ') || 'Beauty',
+    cell_number: phone.replace(/\s/g, ''),
+    m_payment_id: ref,
+    amount: total,
+    item_name: 'LFashionwear Beauty – Personal Shopper Delivery',
+    item_description: itemDesc.substring(0, 255),
+  });
+
+  closeModal();
+  showToast('🔄 Redirecting to PayFast...');
+  setTimeout(() => { window.open('https://www.payfast.co.za/eng/process?' + params.toString(), '_blank'); }, 800);
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+renderZones();
+renderCategories();
+renderProducts();
+</script>
+</body>
+</html>
